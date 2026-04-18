@@ -4,6 +4,7 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
+    "audio:gen": "node scripts/generate-dev-audio.mjs",
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",

@@ -7,6 +7,14 @@ import './ui/overlay.css';
 
 const R2_BASE_URL = import.meta.env.VITE_R2_BASE_URL ?? '';
 
+function getNow() {
+  if (import.meta.env.DEV) {
+    const devtime = new URLSearchParams(window.location.search).get('devtime');
+    if (devtime) return new Date(devtime);
+  }
+  return new Date();
+}
+
 async function resolveSceneConfig(scenePath) {
   if (!scenePath || scenePath === 'mock') return mockSceneConfig;
   try {
@@ -27,8 +35,7 @@ function getUpNext(schedule, now) {
 
   for (const entry of entries) {
     const [h, m] = entry.startTime.split(':').map(Number);
-    const entryMinutes = h * 60 + m;
-    if (entryMinutes > minutesNow) {
+    if (h * 60 + m > minutesNow) {
       const show = schedule.shows.find(s => s.id === entry.showId);
       return { show, time: entry.startTime };
     }
@@ -38,7 +45,8 @@ function getUpNext(schedule, now) {
 
 async function init() {
   const schedule = await fetch('/schedule.json').then(r => r.json());
-  const now = new Date();
+  const now = getNow();
+  const bootWallTime = Date.now();
 
   const block = getCurrentBlock(schedule, now);
   const tracks = block.data.tracks;
@@ -96,11 +104,20 @@ async function init() {
     audioEngine.setVolume(parseFloat(overlay.volumeSlider.value));
   });
 
+  // Advance from the boot devtime at real-time speed so progress stays accurate
+  // even when devtime differs from the wall clock.
   setInterval(() => {
-    const trackPos = resolveTrackPosition(tracks, block.blockStart, new Date());
+    const wallElapsed = (Date.now() - bootWallTime) / 1000;
+    const effectiveNow = new Date(now.getTime() + wallElapsed * 1000);
+    const trackPos = resolveTrackPosition(tracks, block.blockStart, effectiveNow);
     overlay.updateTrack(tracks[trackPos.trackIndex]);
     overlay.updateProgress(trackPos.offset, tracks[trackPos.trackIndex].duration);
   }, 1000);
+
+  if (import.meta.env.DEV) {
+    const { DevPanel } = await import('./dev/DevPanel.js');
+    new DevPanel(schedule);
+  }
 }
 
 init().catch(console.error);
