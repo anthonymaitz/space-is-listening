@@ -1,0 +1,100 @@
+{
+  "station": {
+    "name": "Space is Listening",
+    "tagline": "transmitting from the cosmos",
+    "timezone": "UTC",
+    "stationIds": [
+      { "src": "station-ids/id-01.mp3", "duration": 8 },
+      { "src": "station-ids/id-02.mp3", "duration": 10 }
+    ],
+    "stationIdInterval": 5
+  },
+  "dayparts": {
+    "late-night": {
+      "hours": [0, 1, 2, 3, 4, 5],
+      "scene": "scenes/late-night.json",
+      "tracks": [
+        { "src": "dayparts/late-night/01.mp3", "duration": 240, "title": "Void Drift", "artist": "Cosmos FM" },
+        { "src": "dayparts/late-night/02.mp3", "duration": 210, "title": "Signal Ghost", "artist": "Cosmos FM" }
+      ]
+    },
+    "morning": {
+      "hours": [6, 7, 8, 9, 10],
+      "scene": "scenes/morning.json",
+      "tracks": [
+        { "src": "dayparts/morning/01.mp3", "duration": 195, "title": "Soft Horizon", "artist": "Cosmos FM" },
+        { "src": "dayparts/morning/02.mp3", "duration": 220, "title": "Waking Frequency", "artist": "Cosmos FM" }
+      ]
+    },
+    "working": {
+      "hours": [11, 12, 13, 14, 15],
+      "scene": "scenes/working.json",
+      "tracks": [
+        { "src": "dayparts/working/01.mp3", "duration": 185, "title": "Focus Stream", "artist": "Cosmos FM" },
+        { "src": "dayparts/working/02.mp3", "duration": 200, "title": "Orbital Pulse", "artist": "Cosmos FM" }
+      ]
+    },
+    "evening": {
+      "hours": [16, 17, 18, 19],
+      "scene": "scenes/evening.json",
+      "tracks": [
+        { "src": "dayparts/evening/01.mp3", "duration": 230, "title": "Golden Descent", "artist": "Cosmos FM" },
+        { "src": "dayparts/evening/02.mp3", "duration": 215, "title": "Amber Cloud", "artist": "Cosmos FM" }
+      ]
+    },
+    "night": {
+      "hours": [20, 21, 22, 23],
+      "scene": "scenes/night.json",
+      "tracks": [
+        { "src": "dayparts/night/01.mp3", "duration": 250, "title": "Deep Carrier", "artist": "Cosmos FM" },
+        { "src": "dayparts/night/02.mp3", "duration": 235, "title": "Lunar Static", "artist": "Cosmos FM" }
+      ]
+    }
+  },
+  "shows": [
+    {
+      "id": "morning-drift",
+      "name": "Morning Drift",
+      "description": "Slow wake-up transmissions",
+      "scene": "scenes/morning-drift.json",
+      "trackOrder": "sequential",
+      "stationIdBefore": true,
+      "tracks": [
+        { "src": "shows/morning-drift/01.mp3", "duration": 180, "title": "Weightless Signal", "artist": "Astra Collective" },
+        { "src": "shows/morning-drift/02.mp3", "duration": 240, "title": "Perihelion", "artist": "Astra Collective" },
+        { "src": "shows/morning-drift/03.mp3", "duration": 210, "title": "Pale Morning", "artist": "Astra Collective" }
+      ]
+    },
+    {
+      "id": "midday-pulse",
+      "name": "Midday Pulse",
+      "description": "High-energy midday transmissions",
+      "scene": "scenes/midday-pulse.json",
+      "trackOrder": "sequential",
+      "stationIdBefore": true,
+      "tracks": [
+        { "src": "shows/midday-pulse/01.mp3", "duration": 200, "title": "Solar Flare", "artist": "Helio" },
+        { "src": "shows/midday-pulse/02.mp3", "duration": 195, "title": "Chromosphere", "artist": "Helio" }
+      ]
+    }
+  ],
+  "schedule": {
+    "monday": [
+      { "showId": "morning-drift", "startTime": "06:00", "endTime": "08:00" },
+      { "showId": "midday-pulse",  "startTime": "14:00", "endTime": "16:00" }
+    ],
+    "tuesday": [
+      { "showId": "morning-drift", "startTime": "07:00", "endTime": "09:00" }
+    ],
+    "wednesday": [],
+    "thursday": [
+      { "showId": "midday-pulse", "startTime": "13:00", "endTime": "15:00" }
+    ],
+    "friday": [
+      { "showId": "morning-drift", "startTime": "06:00", "endTime": "08:00" },
+      { "showId": "midday-pulse",  "startTime": "16:00", "endTime": "18:00" }
+    ],
+    "saturday": [],
+    "sunday": []
+  }
+}
