@@ -28,6 +28,10 @@ export class AudioEngine {
   }
 
   async _loadTrack(url, offset = 0) {
+    if (this._currentAudio) {
+      this._currentAudio.pause();
+      this._currentAudio = null;
+    }
     const audio = new Audio(`${this.baseUrl}/${url}`);
     audio.crossOrigin = 'anonymous';
     const source = this._ctx.createMediaElementSource(audio);
@@ -53,15 +57,16 @@ export class AudioEngine {
   _playStationId(src) {
     const audio = new Audio(`${this.baseUrl}/${src}`);
     audio.crossOrigin = 'anonymous';
+    const source = this._ctx.createMediaElementSource(audio);
+    source.connect(this._gainNode);
     audio.addEventListener('ended', () => this._loadAndPlayNext());
     audio.play();
   }
 
-  _loadAndPlayNext() {
+  async _loadAndPlayNext() {
     const next = this._trackQueue[this._currentTrackIndex];
-    this._loadTrack(next.src, 0).then(() => {
-      if (this._playing) this._currentAudio.play();
-    });
+    await this._loadTrack(next.src, 0);
+    if (this._playing) this._currentAudio.play();
   }
 
   play() {
@@ -75,6 +80,7 @@ export class AudioEngine {
   pause() {
     this._playing = false;
     if (this._currentAudio) this._currentAudio.pause();
+    if (this._ctx) this._ctx.suspend?.();
   }
 
   setVolume(value) {
