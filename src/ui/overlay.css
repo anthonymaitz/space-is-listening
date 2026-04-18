@@ -1,0 +1,140 @@
+/* src/ui/overlay.css */
+
+.overlay-top {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 20px 24px;
+}
+
+.station-name {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 18px;
+  font-weight: 300;
+  letter-spacing: 3px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.live-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+}
+
+.live-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #ff4466;
+  box-shadow: 0 0 6px #ff4466;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+
+.overlay-bottom {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  background: linear-gradient(to top, rgba(5, 5, 20, 0.95) 0%, transparent 100%);
+  padding: 40px 24px 20px;
+}
+
+.now-playing {
+  margin-bottom: 12px;
+}
+
+.show-name {
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: rgba(255, 255, 255, 0.35);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  font-family: Georgia, serif;
+}
+
+.track-title {
+  font-size: 16px;
+  font-weight: 300;
+  color: #fff;
+  font-family: Georgia, serif;
+  letter-spacing: 1px;
+}
+
+.track-artist {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.4);
+  margin-top: 2px;
+  font-family: Georgia, serif;
+}
+
+.progress-bar {
+  height: 2px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 1px;
+  margin-bottom: 14px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: rgba(255, 255, 255, 0.55);
+  border-radius: 1px;
+  width: 0%;
+  transition: width 1s linear;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.play-pause-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: transparent;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.play-pause-btn:hover {
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.volume-control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  opacity: 0.55;
+}
+
+.volume-icon { font-size: 13px; }
+
+.volume-slider {
+  width: 70px;
+  accent-color: rgba(255, 255, 255, 0.6);
+}
+
+.up-next {
+  margin-left: auto;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.4);
+  font-family: Georgia, serif;
+  letter-spacing: 1px;
+  text-align: right;
+}
