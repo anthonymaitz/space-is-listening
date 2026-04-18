@@ -23,7 +23,7 @@
       "src": "scenes/assets/stars-inner.png",
       "z": -0.5,
       "parallaxFactor": 0.10,
-      "animate": "drift"
+      "animate": "float"
     },
     {
       "id": "figure",

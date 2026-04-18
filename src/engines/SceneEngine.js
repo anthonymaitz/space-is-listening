@@ -9,8 +9,9 @@ export class SceneEngine {
 
     this._scene = new THREE.Scene();
 
-    // Orthographic camera covers [-1,1] in both axes regardless of viewport
-    this._camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 100);
+    // Orthographic camera covers aspect-correct frustum
+    const aspect = window.innerWidth / window.innerHeight;
+    this._camera = new THREE.OrthographicCamera(-aspect, aspect, 1, -1, 0.1, 100);
     this._camera.position.z = 5;
 
     this._layers = [];
@@ -39,7 +40,10 @@ export class SceneEngine {
     for (const layer of this._layers) {
       this._scene.remove(layer.object);
       layer.object.geometry?.dispose();
-      layer.object.material?.dispose();
+      if (layer.object.material) {
+        layer.object.material.map?.dispose();
+        layer.object.material.dispose();
+      }
     }
     this._layers = [];
   }
@@ -67,7 +71,7 @@ export class SceneEngine {
     });
     const mesh = new THREE.Mesh(geo, mat);
     mesh.position.z = config.z ?? 0;
-    return { object: mesh, config };
+    return { object: mesh, config, _baseY: 0 };
   }
 
   _createParticleLayer(config) {
@@ -87,7 +91,7 @@ export class SceneEngine {
       depthWrite: false,
     });
     const points = new THREE.Points(geo, mat);
-    return { object: points, config, _positions: positions };
+    return { object: points, config, _positions: positions, _baseY: 0 };
   }
 
   _createGeometryLayer(config) {
@@ -98,7 +102,7 @@ export class SceneEngine {
     });
     const mesh = new THREE.Mesh(geo, mat);
     mesh.position.z = config.z ?? 0;
-    return { object: mesh, config };
+    return { object: mesh, config, _baseY: 0 };
   }
 
   _setupLighting(lightingConfig) {
@@ -148,7 +152,7 @@ export class SceneEngine {
 
         // Animations
         if (config.animate === 'float') {
-          layer.object.position.y += Math.sin(elapsed * 0.5) * 0.0003;
+          layer.object.position.y = (layer._baseY ?? 0) + Math.sin(elapsed * 0.5) * 0.05;
         }
         if (config.animate === 'rotate') {
           layer.object.rotation.z += delta * 0.15;
@@ -179,6 +183,12 @@ export class SceneEngine {
   }
 
   _onResize() {
+    const aspect = window.innerWidth / window.innerHeight;
     this._renderer.setSize(window.innerWidth, window.innerHeight);
+    this._camera.left   = -aspect;
+    this._camera.right  =  aspect;
+    this._camera.top    =  1;
+    this._camera.bottom = -1;
+    this._camera.updateProjectionMatrix();
   }
 }
