@@ -39,6 +39,17 @@ describe('getDaypart', () => {
   it('returns night for 21:00 UTC', () => {
     expect(getDaypart(schedule, new Date('2024-01-15T21:00:00Z'))).toBe('night');
   });
+  it('returns fallback string when no daypart covers the hour', () => {
+    // A schedule where only hour 10 is mapped — hour 5 is unmapped
+    const sparseSchedule = {
+      dayparts: { 'midday': { hours: [10], tracks: [], scene: '' } },
+      shows: [],
+      schedule: { monday: [], tuesday: [], wednesday: [], thursday: [], friday: [], saturday: [], sunday: [] },
+    };
+    // getDaypart falls through to the hardcoded 'night' string
+    const result = getDaypart(sparseSchedule, new Date('2024-01-15T05:00:00Z'));
+    expect(result).toBe('night');
+  });
 });
 
 describe('getCurrentBlock', () => {
@@ -114,5 +125,19 @@ describe('resolveTrackPosition', () => {
     const pos = resolveTrackPosition(tracks, blockStart, now);
     expect(pos.trackIndex).toBe(0);
     expect(pos.offset).toBeCloseTo(0);
+  });
+
+  it('returns empty-track sentinel when tracks array is empty', () => {
+    const blockStart = new Date('2024-01-15T06:00:00Z');
+    const now        = new Date('2024-01-15T06:01:00Z');
+    const pos = resolveTrackPosition([], blockStart, now);
+    expect(pos).toEqual({ trackIndex: 0, trackUrl: '', offset: 0 });
+  });
+
+  it('returns empty-track sentinel when tracks is null', () => {
+    const blockStart = new Date('2024-01-15T06:00:00Z');
+    const now        = new Date('2024-01-15T06:01:00Z');
+    const pos = resolveTrackPosition(null, blockStart, now);
+    expect(pos).toEqual({ trackIndex: 0, trackUrl: '', offset: 0 });
   });
 });

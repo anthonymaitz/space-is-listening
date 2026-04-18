@@ -33,10 +33,19 @@ export function getCurrentBlock(schedule, now) {
   const daypart = schedule.dayparts[daypartKey];
   const blockStart = new Date(now);
   blockStart.setUTCMinutes(0, 0, 0);
+  if (!daypart) {
+    // Fallback to first available daypart when getDaypart returns a key not in schedule
+    const firstKey = Object.keys(schedule.dayparts)[0];
+    const fallbackDaypart = schedule.dayparts[firstKey];
+    return { type: 'daypart', data: { ...fallbackDaypart, id: firstKey }, blockStart };
+  }
   return { type: 'daypart', data: { ...daypart, id: daypartKey }, blockStart };
 }
 
 export function resolveTrackPosition(tracks, blockStart, now) {
+  if (!tracks || tracks.length === 0) {
+    return { trackIndex: 0, trackUrl: '', offset: 0 };
+  }
   const totalDuration = tracks.reduce((sum, t) => sum + t.duration, 0);
   let elapsed = (now - blockStart) / 1000;
   elapsed = elapsed % totalDuration;
