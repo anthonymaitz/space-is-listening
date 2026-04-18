@@ -1,0 +1,50 @@
+{
+  "id": "default",
+  "background": "#12123a",
+  "layers": [
+    {
+      "id": "bg",
+      "type": "image",
+      "src": "scenes/assets/space-bg.png",
+      "z": -2,
+      "parallaxFactor": 0.02
+    },
+    {
+      "id": "midground",
+      "type": "image",
+      "src": "scenes/assets/planets.png",
+      "z": -1,
+      "parallaxFactor": 0.06,
+      "animate": "float"
+    },
+    {
+      "id": "stars-inner",
+      "type": "image",
+      "src": "scenes/assets/stars-inner.png",
+      "z": -0.5,
+      "parallaxFactor": 0.10,
+      "animate": "drift"
+    },
+    {
+      "id": "figure",
+      "type": "image",
+      "src": "scenes/assets/figure.png",
+      "z": 0,
+      "parallaxFactor": 0.14,
+      "cutout": true
+    },
+    {
+      "id": "particles",
+      "type": "particles",
+      "z": 1,
+      "count": 200,
+      "color": "#c0d8ff",
+      "size": 0.012,
+      "speed": 0.3
+    }
+  ],
+  "lighting": {
+    "ambient": { "color": "#1a1a4a", "intensity": 0.6 },
+    "point":   { "color": "#ff88cc", "intensity": 0.8, "position": [0, 1, 2] }
+  }
+}
