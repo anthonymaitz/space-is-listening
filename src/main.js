@@ -77,27 +77,35 @@ async function init() {
   });
   await audioEngine.init(block, seekResult, schedule.station.stationIds);
 
-  // Web Audio requires a user gesture before play
   let started = false;
-  document.addEventListener('click', () => {
-    if (!started) {
-      started = true;
-      audioEngine.play();
-      overlay.setPlaying(true);
-    }
-  }, { once: true });
+
+  function startAudio() {
+    if (started) return;
+    started = true;
+    audioEngine.play();
+    overlay.setPlaying(true);
+    document.getElementById('tap-prompt')?.remove();
+  }
+
+  // Attempt immediate autoplay — browsers may allow it on reload/revisit.
+  // If blocked, a minimal prompt appears and any click starts playback.
+  audioEngine.play().then(() => {
+    started = true;
+    overlay.setPlaying(true);
+  }).catch(() => {
+    const prompt = document.createElement('div');
+    prompt.id = 'tap-prompt';
+    prompt.textContent = 'tap anywhere to listen';
+    document.body.appendChild(prompt);
+    document.addEventListener('click', startAudio, { once: true });
+  });
 
   overlay.playPauseBtn.addEventListener('click', (e) => {
     e.stopPropagation();
-    if (!started) {
-      started = true;
-      audioEngine.play();
-      overlay.setPlaying(true);
-    } else {
-      const isPlaying = overlay.playPauseBtn.textContent === '⏸';
-      isPlaying ? audioEngine.pause() : audioEngine.play();
-      overlay.setPlaying(!isPlaying);
-    }
+    if (!started) { startAudio(); return; }
+    const isPlaying = overlay.playPauseBtn.textContent === '⏸';
+    isPlaying ? audioEngine.pause() : audioEngine.play();
+    overlay.setPlaying(!isPlaying);
   });
 
   overlay.volumeSlider.addEventListener('input', () => {

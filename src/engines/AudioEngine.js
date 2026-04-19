@@ -73,8 +73,9 @@ export class AudioEngine {
     this._playing = true;
     if (this._currentAudio) {
       this._ctx.resume();
-      this._currentAudio.play();
+      return this._currentAudio.play();
     }
+    return Promise.resolve();
   }
 
   pause() {
