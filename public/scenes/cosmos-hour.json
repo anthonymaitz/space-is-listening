@@ -1,0 +1,14 @@
+{
+  "background": "#060210",
+  "layers": [
+    { "type": "procedural-stars", "count": 500, "size": 0.008 },
+    { "type": "icosahedron", "radius": 0.4, "color": "#c08820", "animate": "float", "floatSpeed": 0.2, "floatAmplitude": 0.1 },
+    { "type": "ring", "radius": 0.7, "tube": 0.025, "color": "#8040c0", "animate": "rotate", "rotateSpeed": 0.14 },
+    { "type": "ring", "radius": 1.2, "tube": 0.015, "color": "#401870", "animate": "rotate", "rotateSpeed": 0.05 },
+    { "type": "particles", "count": 180, "speed": 0.15, "size": 0.02, "color": "#d09030" }
+  ],
+  "lighting": {
+    "ambient": { "color": "#1a0a2e", "intensity": 0.6 },
+    "point": { "color": "#d4901e", "intensity": 1.4, "position": [1, -1, 3] }
+  }
+}

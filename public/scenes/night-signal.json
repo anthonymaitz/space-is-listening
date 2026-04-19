@@ -1,0 +1,12 @@
+{
+  "background": "#020a08",
+  "layers": [
+    { "type": "procedural-stars", "count": 100, "size": 0.005 },
+    { "type": "sphere", "radius": 0.15, "wireframe": false, "color": "#20c080", "animate": "pulse", "pulseSpeed": 1.2 },
+    { "type": "particles", "count": 20, "speed": 0.05, "size": 0.012, "color": "#18805a" }
+  ],
+  "lighting": {
+    "ambient": { "color": "#020e08", "intensity": 0.4 },
+    "point": { "color": "#28c890", "intensity": 1.0, "position": [0, 0, 3] }
+  }
+}

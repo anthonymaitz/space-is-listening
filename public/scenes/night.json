@@ -1,0 +1,13 @@
+{
+  "background": "#050210",
+  "layers": [
+    { "type": "procedural-stars", "count": 400, "size": 0.008 },
+    { "type": "ring", "radius": 0.5, "tube": 0.025, "color": "#7030cc", "animate": "rotate", "rotateSpeed": 0.18 },
+    { "type": "ring", "radius": 1.0, "tube": 0.015, "color": "#3a1870", "animate": "rotate", "rotateSpeed": 0.06 },
+    { "type": "particles", "count": 150, "speed": 0.18, "size": 0.02, "color": "#5025a0" }
+  ],
+  "lighting": {
+    "ambient": { "color": "#0d0622", "intensity": 0.6 },
+    "point": { "color": "#7840dc", "intensity": 1.3, "position": [2, 2, 3] }
+  }
+}

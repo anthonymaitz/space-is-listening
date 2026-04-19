@@ -1,0 +1,12 @@
+{
+  "background": "#060414",
+  "layers": [
+    { "type": "procedural-stars", "count": 300, "size": 0.007 },
+    { "type": "sphere", "radius": 0.5, "wireframe": true, "color": "#9060d0", "animate": "float", "floatSpeed": 0.4, "floatAmplitude": 0.1 },
+    { "type": "particles", "count": 80, "speed": 0.15, "size": 0.018, "color": "#6040a0" }
+  ],
+  "lighting": {
+    "ambient": { "color": "#1a0e30", "intensity": 0.6 },
+    "point": { "color": "#a060ff", "intensity": 1.0, "position": [0, -3, 2] }
+  }
+}
