@@ -27,6 +27,7 @@ export class Overlay {
           </label>
           <div class="up-next"></div>
         </div>
+        <div class="attr-footer">Music by Kevin MacLeod &middot; incompetech.com &middot; CC BY 4.0</div>
       </div>
     `;
   }

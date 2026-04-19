@@ -62,4 +62,11 @@ describe('Overlay', () => {
     expect(container.querySelector('.up-next').textContent).toContain('Midday Pulse');
     expect(container.querySelector('.up-next').textContent).toContain('14:00');
   });
+
+  it('renders the attribution footer', () => {
+    const el = container.querySelector('.attr-footer');
+    expect(el).not.toBeNull();
+    expect(el.textContent).toContain('Kevin MacLeod');
+    expect(el.textContent).toContain('CC BY 4.0');
+  });
 });
