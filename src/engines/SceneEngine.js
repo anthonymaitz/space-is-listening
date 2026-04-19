@@ -100,7 +100,7 @@ export class SceneEngine {
   _createGeometryLayer(config) {
     const r = config.radius ?? 0.4;
     const geo = new THREE.TorusGeometry(r, 0.12, 16, 80);
-    const mat = new THREE.MeshStandardMaterial({
+    const mat = new THREE.MeshBasicMaterial({
       color: new THREE.Color(config.color || '#4444aa'),
       wireframe: true,
     });
@@ -112,7 +112,7 @@ export class SceneEngine {
   _createSphereLayer(config) {
     const r = config.radius ?? 0.4;
     const geo = new THREE.SphereGeometry(r, 32, 32);
-    const mat = new THREE.MeshStandardMaterial({
+    const mat = new THREE.MeshBasicMaterial({
       color: new THREE.Color(config.color || '#8866cc'),
       wireframe: config.wireframe ?? false,
     });
@@ -125,7 +125,7 @@ export class SceneEngine {
     const r = config.radius ?? 0.5;
     const tube = config.tube ?? 0.03;
     const geo = new THREE.TorusGeometry(r, tube, 8, 80);
-    const mat = new THREE.MeshStandardMaterial({
+    const mat = new THREE.MeshBasicMaterial({
       color: new THREE.Color(config.color || '#4466aa'),
     });
     const mesh = new THREE.Mesh(geo, mat);
@@ -136,7 +136,7 @@ export class SceneEngine {
   _createIcosahedronLayer(config) {
     const r = config.radius ?? 0.4;
     const geo = new THREE.IcosahedronGeometry(r, 1);
-    const mat = new THREE.MeshStandardMaterial({
+    const mat = new THREE.MeshBasicMaterial({
       color: new THREE.Color(config.color || '#cc9922'),
       wireframe: true,
     });
