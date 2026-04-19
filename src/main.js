@@ -15,14 +15,14 @@ function getNow() {
   return new Date();
 }
 
-async function resolveSceneConfig(scenePath) {
-  if (!scenePath || scenePath === 'mock') return mockSceneConfig;
+async function resolveSceneConfig(name) {
+  if (!name || name === 'mock') return mockSceneConfig;
   try {
-    const res = await fetch(`${R2_BASE_URL}/${scenePath}`);
+    const res = await fetch(`/scenes/${name}.json`);
     if (!res.ok) throw new Error(res.status);
     return res.json();
   } catch {
-    console.warn(`[main] Scene ${scenePath} not found, using mock`);
+    console.warn(`[main] Scene "${name}" not found, using mock`);
     return mockSceneConfig;
   }
 }
