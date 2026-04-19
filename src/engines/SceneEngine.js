@@ -54,6 +54,9 @@ export class SceneEngine {
       case 'particles':        return this._createParticleLayer(config);
       case 'procedural-stars': return this._createParticleLayer({ ...config, count: config.count || 500, speed: 0 });
       case 'geometry':         return this._createGeometryLayer(config);
+      case 'sphere':           return this._createSphereLayer(config);
+      case 'ring':             return this._createRingLayer(config);
+      case 'icosahedron':      return this._createIcosahedronLayer(config);
       default:
         console.warn(`[SceneEngine] Unknown layer type: ${config.type}`);
         return null;
@@ -95,9 +98,46 @@ export class SceneEngine {
   }
 
   _createGeometryLayer(config) {
-    const geo = new THREE.TorusGeometry(0.4, 0.12, 16, 80);
+    const r = config.radius ?? 0.4;
+    const geo = new THREE.TorusGeometry(r, 0.12, 16, 80);
     const mat = new THREE.MeshStandardMaterial({
       color: new THREE.Color(config.color || '#4444aa'),
+      wireframe: true,
+    });
+    const mesh = new THREE.Mesh(geo, mat);
+    mesh.position.z = config.z ?? 0;
+    return { object: mesh, config, _baseY: 0 };
+  }
+
+  _createSphereLayer(config) {
+    const r = config.radius ?? 0.4;
+    const geo = new THREE.SphereGeometry(r, 32, 32);
+    const mat = new THREE.MeshStandardMaterial({
+      color: new THREE.Color(config.color || '#8866cc'),
+      wireframe: config.wireframe ?? false,
+    });
+    const mesh = new THREE.Mesh(geo, mat);
+    mesh.position.z = config.z ?? 0;
+    return { object: mesh, config, _baseY: 0 };
+  }
+
+  _createRingLayer(config) {
+    const r = config.radius ?? 0.5;
+    const tube = config.tube ?? 0.03;
+    const geo = new THREE.TorusGeometry(r, tube, 8, 80);
+    const mat = new THREE.MeshStandardMaterial({
+      color: new THREE.Color(config.color || '#4466aa'),
+    });
+    const mesh = new THREE.Mesh(geo, mat);
+    mesh.position.z = config.z ?? 0;
+    return { object: mesh, config, _baseY: 0 };
+  }
+
+  _createIcosahedronLayer(config) {
+    const r = config.radius ?? 0.4;
+    const geo = new THREE.IcosahedronGeometry(r, 1);
+    const mat = new THREE.MeshStandardMaterial({
+      color: new THREE.Color(config.color || '#cc9922'),
       wireframe: true,
     });
     const mesh = new THREE.Mesh(geo, mat);
@@ -152,11 +192,18 @@ export class SceneEngine {
 
         // Animations
         if (config.animate === 'float') {
-          layer.object.position.y = (layer._baseY ?? 0) + Math.sin(elapsed * 0.5) * 0.05;
+          const speed = config.floatSpeed ?? 0.5;
+          const amplitude = config.floatAmplitude ?? 0.05;
+          layer.object.position.y = (layer._baseY ?? 0) + Math.sin(elapsed * speed) * amplitude;
         }
         if (config.animate === 'rotate') {
-          layer.object.rotation.z += delta * 0.15;
-          layer.object.rotation.x += delta * 0.07;
+          const speed = config.rotateSpeed ?? 0.15;
+          layer.object.rotation.z += delta * speed;
+          layer.object.rotation.x += delta * speed * 0.47;
+        }
+        if (config.animate === 'pulse') {
+          const speed = config.pulseSpeed ?? 1.2;
+          layer.object.scale.setScalar(1 + Math.sin(elapsed * speed) * 0.08);
         }
 
         // Particle drift
