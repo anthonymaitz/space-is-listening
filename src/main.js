@@ -18,7 +18,7 @@ function getNow() {
 async function resolveSceneConfig(name) {
   if (!name || name === 'mock') return mockSceneConfig;
   try {
-    const res = await fetch(`/scenes/${name}.json`);
+    const res = await fetch(`${import.meta.env.BASE_URL}scenes/${name}.json`);
     if (!res.ok) throw new Error(res.status);
     return res.json();
   } catch {
@@ -44,7 +44,7 @@ function getUpNext(schedule, now) {
 }
 
 async function init() {
-  const schedule = await fetch('/schedule.json').then(r => r.json());
+  const schedule = await fetch(import.meta.env.BASE_URL + 'schedule.json').then(r => r.json());
   const now = getNow();
   const bootWallTime = Date.now();
 
